@@ -1,22 +1,30 @@
 <template name="Main">
   {{> Header }}
-    
-    <div class="col-xs-12 col-md-5">
-      <div class="row" >
-        <div class="col-xs-12 col-sm-6 col-md-12" id="sliders">
-          {{> Sliders }}
+
+  <div class="main">
+    <div class="full-height-container row">
+        
+        <div id="left-panel" class="col-xs-12 col-md-7">
+              <div class="row">
+              <div id="sliders" class="col-xs-6">
+                {{> Sliders }}
+              </div>
+              </div>
+              
+              <div class="row">
+              <div id="trips-list">
+                {{> Trips }}
+              </div>
+              </div>
+          
         </div>
-      </div>
 
-      <div class="row">
-        <div class="col-xs-12" id="trips">
-          {{> Trips }}
+        <div id="map-panel" class="col-xs-12 col-md-5">
+          {{> Map }}
         </div>
-      </div>
-    </div>
 
-    <div class="col-xs-12 col-md-7" id="map">
-      {{> Map }}
     </div>
+  </div>
 
+  
 </template>

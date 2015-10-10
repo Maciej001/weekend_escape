@@ -1,0 +1,46 @@
+<template name="tripItem">
+
+  <div class="col-xs-6 col-sm-6 city">
+    
+    <div class="row">
+    <div class="col-xs-12">   
+      <div class="trip">
+
+        <div class="city-weather">
+        <div class="city-weather-wrapper">
+          <i class="{{weatherIcon}}"></i>
+          <span>{{temperature}}&deg;C</span>
+          <span class="city-name">{{name}}</span>
+        </div>
+        </div>
+
+        <img src="{{image}}">
+
+  
+        <div class="row">
+        <div class="col-xs-12 city-bg-price">
+            <div class="city-black-bg"></div>
+        </div>  
+        </div>    
+
+        <div class="city-price">
+          <p>Weekend for</p>
+          <span>£235 pp</span>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <div class="row">
+    <div class="col-xs-12 trip-flight-des">
+
+      <h5>D: <span>Fri, 5:45pm, Heathrow</span></h5>
+      <h5>R: <span>Sun, 21:50, Luton</span></h5>
+      <h5>P: <span>£150 return</span></h5>
+      <h5>Hotel Concorde B **** / TA ***1/2 - £100 for 2 nights</h5>
+
+    </div>
+    </div>
+
+  </div> 
+</template>

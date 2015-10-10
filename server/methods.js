@@ -57,7 +57,8 @@ Meteor.methods({
                         lng: city.coord.lon
                       },
         zoom:         city.zoom,
-        airportCode:  city.airportCode
+        airportCode:  city.airportCode,
+        image: "cities_images/" + city.name.toLowerCase() + ".jpg"
       });
     });
   },
@@ -168,26 +169,24 @@ Meteor.methods({
   },
 
   downloadHotels: function(){
-    console.log('findHotels function inside');
+    Hotels.remove({});
     var cities = Cities.findOne({name: "Barcelona"});
 
     var expediaURL = "http://terminal2.expedia.com/x/hotels?location=" +
                     cities.coord.lat + "," + cities.coord.lng + 
-                    "&radius=5km&apikey=" +
-                    "lwPXBWrZYp37V4bzOLprAtE31oNYglFz";
+                    "&radius=5km&apikey=" + "";
 
     HTTP.get(expediaURL, function(err, results){
-      console.log(results.data.HotelInfoList.HotelInfo);
-      // _.each(results.data.HotelInfoList.HotelInfo, function(hotel){
-      //   if (!!hotel.Name && !!hotel.FeaturedOffer) {
 
-      //     Hotels.insert({
-      //       name:   hotel.Name,
-      //       price:  hotel.FeaturedOffer.Price.TotalRate.Value
+      _.each(results.data.HotelInfoList.HotelInfo, function(hotel){
+        if (!!hotel.Name && !!hotel.FeaturedOffer) {
 
-      //     });
-      //   }
-      // });
+            Hotels.insert({
+               name:   hotel.Name,
+                price:  hotel.FeaturedOffer.Price.TotalRate.Value
+            });
+        }
+      });
     })
   }
 });
