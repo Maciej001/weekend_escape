@@ -11,6 +11,7 @@ Based on the weather, temperature, flight time and hotel rating it enables you t
 4. Reactive Variable (reactive-var)
 5. Google Maps (dburles:google-maps)
 6. HTTP (http)
+7. Moment.js (momentjs:moment)
 
 # Other
 Front page image source -> https://unsplash.com

@@ -25,3 +25,4 @@ reactive-var
 russ:weather-icons
 dburles:google-maps
 http
+momentjs:moment

@@ -41,6 +41,8 @@ var cities_array =
         {"_id":6360186,"name":"Las Palmas","country":"ES","coord":{"lon":-15.43898,"lat":28.116541},"zoom": 4, "airportCode": "LPA"}
   ]
 
+
+
 Meteor.methods({
   generateCities: function(){
     // remove existing Cities
@@ -170,11 +172,11 @@ Meteor.methods({
 
   downloadHotels: function(){
     Hotels.remove({});
-    var cities = Cities.findOne({name: "Barcelona"});
+    var cities = Cities.findOne({name: "Barcelona"}),
 
-    var expediaURL = "http://terminal2.expedia.com/x/hotels?location=" +
+        expediaURL = "http://terminal2.expedia.com/x/hotels?location=" +
                     cities.coord.lat + "," + cities.coord.lng + 
-                    "&radius=5km&apikey=" + "";
+                    "&radius=5km&apikey=" + "lwPXBWrZYp37V4bzOLprAtE31oNYglFz";
 
     HTTP.get(expediaURL, function(err, results){
 
@@ -188,5 +190,74 @@ Meteor.methods({
         }
       });
     })
-  }
+  },
+
+  clearFlights: function(){
+    Flights.remove({});
+  },
+
+  downloadFlights: function(friday, sunday, origin, destination, maxDuration){
+    Flights.remove({});
+
+    var cities = Cities.find(),
+    flights = {};
+
+    var request = 
+    {
+      "request":  {
+        "slice": [
+          {
+            "origin": origin,
+            "destination": destination,
+            "date": moment(friday).format("YYYY-MM-DD"), 
+            "maxConnectionDuration": maxDuration,
+            "maxStops": 0
+          },
+          {
+            "origin": destination,
+            "destination": origin,
+            "date": moment(sunday).format("YYYY-MM-DD"),
+            "maxConnectionDuration": maxDuration,
+            "maxStops": 0
+          }
+        ],
+        "passengers": {
+          "adultCount": 1,
+          "infantInLapCount": 0,
+          "infantInSeatCount": 0,
+          "childCount": 0,
+          "seniorCount": 0
+        },
+        "solutions": 20, // set to 200
+        "refundable": false
+      }
+    };
+
+    var url = "https://www.googleapis.com/qpxExpress/v1/trips/search?key=";
+
+    HTTP.post(url, {data: request}, function(err, result){
+        flights  = result.data.trips.tripOption;
+
+        if (err) {
+            console.log("Error downloading flights");
+        }
+        else {
+            _.each(flights, function(trip){
+
+                Flights.insert({
+                    origin:         origin,
+                    destination:    destination,
+                    departureDate:  friday,
+                    returnDate:     sunday,
+                    price:          trip.saleTotal,
+                    outDuration:    trip.slice[0].duration,
+                    inDuration:     trip.slice[1].duration
+                });
+            });
+        }
+
+    }); // HTTP ends
+
+  } // downloadFlights
+
 });
