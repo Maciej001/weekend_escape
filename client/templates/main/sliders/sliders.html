@@ -1,0 +1,26 @@
+<template name="Sliders">
+  
+  <div id="weather-slider-container">
+    <div class="sliderItem">
+        <h4>Weather</h4>
+        <i class="{{startWeather}}"></i> - <i class="{{endWeather}}"></i>
+        <div id="weather-slider" class="slider shor"></div>
+    </div>
+    
+    <div class="sliderItem">
+        <h4>Temperature<span class="{{tempClassStart}}"> {{ temperatureSliderStart }}</span> - <span class="{{tempClassEnd}}">{{ temperatureSliderEnd}}</span><span class="grey">&deg;C</span></h4>
+        <div id="temperature-slider" class="slider shor"></div>
+    </div>
+    
+    <div class="sliderItem">
+        <h4>Flight time: <span>{{ flightTimeSlider }}</span></h4>
+        <div id="flight-time-slider" class="slider shor"></div>
+    </div>
+    
+    <div class="sliderItem">
+        <h4>Hotel <span>{{hotelRatingSlider}}</span></h4>
+        <div id="hotel-rating-slider" class="slider shor"></div>
+    </div>
+  </div>
+
+</template>

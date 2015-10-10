@@ -56,11 +56,13 @@ observe-sequence@1.0.7
 ordered-dict@1.0.4
 promise@0.5.0
 random@1.0.4
+rcy:nouislider@7.0.7_2
 reactive-dict@1.1.2
 reactive-var@1.0.6
 reload@1.1.4
 retry@1.0.4
 routepolicy@1.0.6
+russ:weather-icons@1.0.0
 session@1.1.1
 spacebars@1.0.7
 spacebars-compiler@1.0.7

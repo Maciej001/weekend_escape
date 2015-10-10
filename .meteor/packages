@@ -21,3 +21,6 @@ insecure                # Allow all DB writes from clients (for prototyping)
 iron:router
 twbs:bootstrap
 fourseven:scss
+rcy:nouislider
+reactive-var
+russ:weather-icons

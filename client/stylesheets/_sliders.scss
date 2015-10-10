@@ -1,0 +1,127 @@
+
+#weather-slider-container {
+  i {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  h4 {
+    margin-bottom: 20px;
+  }
+
+  .sliderItem {
+    margin-bottom: 30px;
+  }
+}
+
+.noUi-horizontal {
+    height: 4px;
+}
+
+.noUi-horizontal .noUi-handle {
+    width: 30px;
+    height: 30px;
+    top: -13px;
+}
+.noUi-handle {    
+   background: #FFB300;
+   border: none;
+   border-radius: 15px;
+   box-shadow: none;
+   cursor: pointer;
+}
+
+.noUi-handle:before, .noUi-handle:after {
+    display: none;
+}
+
+.noUi-connect {
+    background: #FFB300;
+    box-shadow: none;
+}
+
+.noUi-target {
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+}
+
+.noUi-background {
+    background: #d8d8d8;
+}
+.c-snow {
+  color: #B3E5FC;
+}
+.c-rain {
+  color: #01579B;
+}
+.c-cloudy {
+  color: #0288D1;
+}
+.c-day-cloudy {
+  color: #FFF59D;
+}
+.c-sunny {
+  color: #FFB300;
+}
+
+.freezing {
+  color: #01579B;
+}
+.cold {
+  color: #03A9F4;
+}
+.medium {
+  color: #B3E5FC;
+}
+.warm {
+  color: #FDD835;
+}
+.hot {
+  color: #FFB300;
+}
+
+.very-hot {
+  color: #E65100;
+}
+
+.grey {
+  color: $light-grey;
+}
+
+// noUiSlider css overrides
+.noUi-horizontal {
+    height: 4px;
+}
+
+.noUi-horizontal .noUi-handle {
+    width: 30px;
+    height: 30px;
+    top: -13px;
+}
+.noUi-handle {    
+   background: #FFB300;
+   border: none;
+   border-radius: 15px;
+   box-shadow: none;
+   cursor: pointer;
+}
+
+.noUi-handle:before, .noUi-handle:after {
+    display: none;
+}
+
+.noUi-connect {
+    background: #FFB300;
+    box-shadow: none;
+}
+
+.noUi-target {
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+}
+
+.noUi-background {
+    background: #d8d8d8;
+}
