@@ -1,3 +1,19 @@
 <template name="Home">
-  <h1>Find me in app/client/templates/home/home</h1>
+  <div id="start-container">
+    <div id="brand">
+        <h2>Weekend Escape</h2>
+    </div>
+    <div class="center-div">
+        <h1>Weekend Escape is the easiest way</h1>
+        <h2>to escape London for weekend</h2>
+        
+        {{#linkTo route="main"}}
+          <div id="escape-button">
+            <h3>Escape 
+                <i class="glyphicon glyphicon-plane" id="browse-trips"></i>
+            </h3>
+          </div>
+        {{/linkTo}}
+    </div>
+  </div>
 </template>
