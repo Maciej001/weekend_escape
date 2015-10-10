@@ -1,3 +1,5 @@
 <template name="Map">
-  <h2>Google map</h2>
+  <div id="map-container">
+    {{> googleMap name="weatherMap" options=mapOptions}}
+  </div>
 </template>

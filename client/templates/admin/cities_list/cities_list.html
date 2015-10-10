@@ -1,0 +1,22 @@
+<template name="citiesList">
+  <h4>Cities</h4>
+  <table class="table">
+    <thead>
+      <tr>
+        <td>Id</td>
+        <td>City Name</td>
+        <td>Country</td>
+        <td>IATA Code</td>
+        <td>Zoom</td>
+        <td>Latitude</td>
+        <td>Longitude</td>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each cities}}
+        {{> cityItem }}
+      {{/each}}
+    </tbody>
+  </table>
+  
+</template>

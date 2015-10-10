@@ -1,0 +1,43 @@
+<template name="Admin">
+  {{> Header }}
+  <div class="container admin-container">
+
+    <h2>Admin</h2>
+
+    <div class="row">
+      <div class="col-xs-12 col-md-4">
+        
+        <!-- // Cities List -->
+        <div class="admin-row">
+          <h4>Generate List of Cities</h4>
+          <button id="generate-cities" class="btn btn-primary">Generate</button>
+        </div>
+
+        <!-- // Weather Forecast Download -->
+        <div class="admin-row">
+          <h4>Download Weather</h4>
+          <button id="download-weather" class="btn btn-primary">Download</button>
+        </div>  
+
+        <!-- // Flights download -->
+        <div class="admin-row">
+          <h4>Find flights</h4>
+          <button id="find-flights" class="btn btn-primary">Find</button>
+        </div>
+
+        <!-- // Hotel Finder -->
+        <div class="admin-row">
+          <h4>Find Hotels</h4>
+          <button id="download-hotels" class="btn btn-primary">Find</button>
+        </div>
+
+      </div>
+
+      <!-- // Table with all cities -->
+      <div class="col-xs-12 col-md-8">
+        {{> citiesList }}
+      </div>
+    </div>
+
+  </div>
+</template>
