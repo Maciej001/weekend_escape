@@ -21,7 +21,7 @@ var cities_array =
         {"_id":3054643,"name":"Budapest","country":"HU","coord":{"lon":19.039909,"lat":47.498009},"zoom": 5, "airportCode": "BUD"},
         {"_id":6692263,"name":"Reykjavik","country":"IS","coord":{"lon":-21.85799,"lat":64.118401},"zoom": 6, "airportCode": "REK"},
         {"_id":2964574,"name":"Dublin","country":"IE","coord":{"lon":-6.26719,"lat":53.34399},"zoom": 6, "airportCode": "DUB"},
-        {"_id":3169070,"name":"Roma","country":"IT","coord":{"lon":12.4839,"lat":41.894741},"zoom": 5, "airportCode": "RMA"},
+        {"_id":3169070,"name":"Roma","country":"IT","coord":{"lon":12.4839,"lat":41.894741},"zoom": 5, "airportCode": "ROM"},
         {"_id":456172,"name":"Riga","country":"LV","coord":{"lon":24.1,"lat":56.950001},"zoom": 6, "airportCode": "RIX"},
         {"_id":593116,"name":"Vilnius","country":"LT","coord":{"lon":25.2798,"lat":54.689159},"zoom": 6, "airportCode": "VNO"},
         {"_id":2960316,"name":"Luxembourg","country":"LU","coord":{"lon":6.13,"lat":49.611671},"zoom": 6, "airportCode": "LUX"},
@@ -170,37 +170,48 @@ Meteor.methods({
 
   },
 
-  downloadHotels: function(){
+  downloadHotels: function(startDate, endDate){
     Hotels.remove({});
-    var cities = Cities.findOne({name: "Barcelona"}),
 
-        expediaURL = "http://terminal2.expedia.com/x/hotels?location=" +
-                    cities.coord.lat + "," + cities.coord.lng + 
-                    "&radius=5km&apikey=" + "lwPXBWrZYp37V4bzOLprAtE31oNYglFz";
+    var cities = Cities.find();
 
-    HTTP.get(expediaURL, function(err, results){
+    cities.forEach(function(city){
 
-      _.each(results.data.HotelInfoList.HotelInfo, function(hotel){
-        if (!!hotel.Name && !!hotel.FeaturedOffer) {
+        var expediaURL = "http://terminal2.expedia.com/x/hotels?location=" +
+                    city.coord.lat + "," + city.coord.lng + 
+                    "&radius=5km" +
+                    // "&checkInDate=" + moment(startDate).format("YYYY-MM-DD") + 
+                    // "&checkOutDate=" + moment(endDate).format("YYYY-MM-DD") + 
+                    "&apikey=" + "lwPXBWrZYp37V4bzOLprAtE31oNYglFz";
 
-            Hotels.insert({
-               name:   hotel.Name,
-                price:  hotel.FeaturedOffer.Price.TotalRate.Value
-            });
-        }
-      });
-    })
+        HTTP.get(expediaURL, function(err, results){
+            _.each(results.data.HotelInfoList.HotelInfo, function(hotel){
+                if (!!hotel.Name && !!hotel.FeaturedOffer) {
+                    Hotels.insert({
+                        cityCode: city.cityCode,
+                        cityName: city.name,
+                        name:   hotel.Name,
+                        price:  hotel.FeaturedOffer.Price.TotalRate.Value,
+                        StarRating: hotel.StarRating,
+                        DetailsUrl: hotel.FeaturedOffer.DetailsUrl
+                    }); 
+                }
+              });
+            }); // HTTP
+    }); // cities.forEach()
   },
 
   clearFlights: function(){
     Flights.remove({});
   },
 
-  downloadFlights: function(friday, sunday, origin, destination, maxDuration){
+  downloadFlights: function(friday, sunday, origin, destination){
     Flights.remove({});
 
     var cities = Cities.find(),
     flights = {};
+
+    // without maxDuration - this parameter will be sorted on Client;
 
     var request = 
     {
@@ -210,14 +221,12 @@ Meteor.methods({
             "origin": origin,
             "destination": destination,
             "date": moment(friday).format("YYYY-MM-DD"), 
-            "maxConnectionDuration": maxDuration,
             "maxStops": 0
           },
           {
             "origin": destination,
             "destination": origin,
             "date": moment(sunday).format("YYYY-MM-DD"),
-            "maxConnectionDuration": maxDuration,
             "maxStops": 0
           }
         ],

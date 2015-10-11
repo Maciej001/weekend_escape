@@ -32,7 +32,7 @@ Template.Map.onCreated(function() {
       // find forecasts for cities that have weather in temperatureSlider range
       var forecasts = Forecasts.find({ 
         temp: {$gte: temperatureSlider.get()[0], $lte: temperatureSlider.get()[1]},
-        weatherType: {$gte: weatherSlider.get()[0], $lte: weatherSlider.get()[1]} 
+        weatherType: {$gte: weatherSlider.get()[0], $lte: weatherSlider.get()[1]},
       });
 
       var forecastCities = [];
@@ -46,6 +46,7 @@ Template.Map.onCreated(function() {
       removeMarkers(tmpl);
 
       cities.forEach(function(city){
+        if (city.avgFlightTime/60 >= flightTimeSlider.get()[0] && city.avgFlightTime/60 <= flightTimeSlider.get()[1])
         mapAddMarker(map.instance, city, tmpl);  
       });  
       

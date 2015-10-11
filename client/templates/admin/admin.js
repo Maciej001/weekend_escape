@@ -26,7 +26,11 @@ Template.Admin.events({
     Meteor.call("downloadWeather");
   },
   'click #download-hotels': function(){
-    Meteor.call("downloadHotels");
+    var   today = new Date(),
+          friday = nextFriday(today),
+          sunday = nextSunday(today);
+
+    Meteor.call("downloadHotels", friday, sunday);
   },
   'click #download-flights': function(){
     var today = new Date(),
@@ -35,17 +39,42 @@ Template.Admin.events({
     var   friday = nextFriday(today),
           sunday = nextSunday(today),
           origin = "LON",
-          maxDuration = maxDuration;
-
-    var destinations = ["MAD", "BRU"];
+          cities = Cities.find();
 
     Meteor.call("clearFlights");
 
-    _.each(destinations, function(destination){
-      Meteor.call("downloadFlights", friday, sunday, origin, destination, maxDuration);
+    cities.forEach(function(city){
+      Meteor.call("downloadFlights", friday, sunday, origin, city.airportCode);
+    });
+  },
+  'click #avg-flight-time': function(){
+    var cities = Cities.find();
+
+    cities.forEach(function(city){
+      var flights = Flights.find({destination: city.airportCode}),
+          total = 0,
+          i = 0;
+      flights.forEach(function(flight){
+        total += (flight.inDuration + flight.outDuration);
+        i += 2;
+      });
+
+      var avgFlightTime = total/i;
+      // for some cities it's missing. I am not sure if it's problem with API
+
+      if (avgFlightTime) {
+        Cities.update(city._id, {
+          $set: {avgFlightTime: avgFlightTime}
+        });
+      } else {
+        // if flight times not returned set it to 600minutes so it get's filtered out late;
+        Cities.update(city._id, {
+          $set: {avgFlightTime: 600}
+        });
+      }
     });
 
-    
+
   }
   
 });
