@@ -29,4 +29,4 @@ App has admin panel, that is not exposed to the user. It enables:
 Front page image source -> https://unsplash.com
 
 # Video 
-[Weekend Escape Video](https://www.youtube.com/watch?v=neY0i3j9RmY)
+[Weekend Escape Video](https://www.youtube.com/watch?v=G7RW47ex4SA)
