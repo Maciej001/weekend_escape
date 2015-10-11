@@ -1,5 +1,13 @@
 <template name="Trips">
-  {{#each tripsList}}
+  {{#each trips}}
     {{> tripItem}}
   {{/each}}
+
+  {{#if Template.subscriptionsReady}}
+    {{#if hasMoreTrips}}
+      <a href="" class="load-more">Load More</a>
+    {{/if}}
+  {{else}}
+    <div class="loading">{{>spinner}}</div>
+  {{/if}}
 </template>

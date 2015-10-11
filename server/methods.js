@@ -267,6 +267,87 @@ Meteor.methods({
 
     }); // HTTP ends
 
-  } // downloadFlights
+  }, // downloadFlights
+
+  clearTrips: function(){
+    Trips.remove({});
+  },
+
+  generateTrips: function(){
+    var cities = Cities.find();
+
+    cities.forEach(function(city){
+      var flights = Flights.find({destination: city.airportCode}, {
+        limit: 3,
+        sort: { price: 1 }
+      });   
+
+      var forecast = Forecasts.findOne({cityCode: city.cityCode});
+
+      var hotels = Hotels.find({cityCode: city.cityCode}, { limit: 100});
+
+      flights.forEach(function(flight){
+        hotels.forEach(function(hotel){
+          var flightPrice = Number(flight.price.substring(3));
+          var hotelPrice = 2*Number(hotel.price)/1.5, // 2 nights and GBPUSD Exchange rate;
+              totalPrice = hotelPrice + flightPrice;
+
+          Trips.insert({
+            cityCode:    city.cityCode,
+            name:        city.name,
+            airportCode: city.airportCode,
+            totalPrice:  totalPrice,
+            image:       "cities_images/" + city.name.toLowerCase() + ".jpg",
+            weather: {
+                temp:           forecast.temp,
+                weatherIcon:    forecast.weatherIcon
+            },
+            flight: {
+              departureDate:  flight.departureDate,
+              returnDate:     flight.returnDate,
+              price:          flight.price,
+              outDuration:    flight.outDuration,
+              inDuration:     flight.inDuration
+            },
+            hotel: {
+              name:         hotel.name,
+              price:        hotelPrice,
+              DetailsUrl:   hotel.DetailsUrl
+            },
+            StarRating:   hotel.StarRating
+          }); // Trips.insert
+        }); // hotels loop
+      }); // flights loop
+    }); // cities loop
+  },
+
+  averageFlightTime: function(){
+    var cities = Cities.find();
+
+    cities.forEach(function(city){
+        var flights = Flights.find({destination: city.airportCode}),
+          total = 0,
+          i = 0;
+
+        flights.forEach(function(flight){
+            total += (flight.inDuration + flight.outDuration);
+            i += 2;
+        });
+
+        var avgFlightTime = total/i;
+        
+        // for some cities it's missing. I am not sure if it's problem with API
+        if (avgFlightTime) {
+            Cities.update(city._id, {
+              $set: {avgFlightTime: avgFlightTime}
+            });
+        } else {
+            // if flight times not returned set it to 600minutes so it get's filtered out late;
+            Cities.update(city._id, {
+              $set: {avgFlightTime: 600}
+            });
+        }
+    });
+  },
 
 });

@@ -8,7 +8,7 @@
 
         <div class="city-weather">
         <div class="city-weather-wrapper">
-          <i class="{{weatherIcon}}"></i>
+          <i class="{{weather.weatherIcon}}"></i>
           <span>{{temperature}}&deg;C</span>
           <span class="city-name">{{name}}</span>
         </div>
@@ -25,19 +25,20 @@
 
         <div class="city-price">
           <p>Weekend for</p>
-          <span>£235 pp</span>
+          <span>£{{totalPriceFormatted}} pp</span>
         </div>
       </div>
     </div>
     </div>
 
     <div class="row">
-    <div class="col-xs-12 trip-flight-des">
+    <div class="col-xs-12 trip-description">
 
-      <h5>D: <span>Fri, 5:45pm, Heathrow</span></h5>
-      <h5>R: <span>Sun, 21:50, Luton</span></h5>
-      <h5>P: <span>£150 return</span></h5>
-      <h5>Hotel Concorde B **** / TA ***1/2 - £100 for 2 nights</h5>
+      <h5>Departure <span>{{departureDate}}</span></h5>
+      <h5>Return <span>{{returnDate}}</span></h5>
+      <h5>Flight <span>£{{flightPrice}}</span></h5>
+      <h5>{{hotel.name}}, {{StarRating}} stars</h5>
+      <h5>£{{hotelPrice}} for 2 nights</h5>
 
     </div>
     </div>

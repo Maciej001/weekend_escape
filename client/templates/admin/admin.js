@@ -48,32 +48,14 @@ Template.Admin.events({
     });
   },
   'click #avg-flight-time': function(){
-    var cities = Cities.find();
+    Meteor.call("averageFlightTime");
 
-    cities.forEach(function(city){
-      var flights = Flights.find({destination: city.airportCode}),
-          total = 0,
-          i = 0;
-      flights.forEach(function(flight){
-        total += (flight.inDuration + flight.outDuration);
-        i += 2;
-      });
+  },
 
-      var avgFlightTime = total/i;
-      // for some cities it's missing. I am not sure if it's problem with API
+  'click #generate-trips': function(){
 
-      if (avgFlightTime) {
-        Cities.update(city._id, {
-          $set: {avgFlightTime: avgFlightTime}
-        });
-      } else {
-        // if flight times not returned set it to 600minutes so it get's filtered out late;
-        Cities.update(city._id, {
-          $set: {avgFlightTime: 600}
-        });
-      }
-    });
-
+    Meteor.call("clearTrips");
+    Meteor.call("generateTrips");
 
   }
   

@@ -23,6 +23,7 @@ App has admin panel, that is not exposed to the user. It enables:
 5. Google Maps (dburles:google-maps)
 6. HTTP (http)
 7. Moment.js (momentjs:moment)
+8. Spinner (add sacha:spin)
 
 # Other
 Front page image source -> https://unsplash.com

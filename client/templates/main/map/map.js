@@ -47,7 +47,7 @@ Template.Map.onCreated(function() {
 
       cities.forEach(function(city){
         if (city.avgFlightTime/60 >= flightTimeSlider.get()[0] && city.avgFlightTime/60 <= flightTimeSlider.get()[1])
-        mapAddMarker(map.instance, city, tmpl);  
+          mapAddMarker(map.instance, city, tmpl);  
       });  
       
     }); // autorun
