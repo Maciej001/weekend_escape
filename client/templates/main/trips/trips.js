@@ -25,39 +25,26 @@ Template.Trips.onCreated(function(){
 
   tmpl.autorun(function(){
 
-    tmpl.tripCities.set([]);
+    var pubObj = {
+      tempMin:      temperatureSlider.get()[0],
+      tempMax:      temperatureSlider.get()[1],
+      weatherMin:   weatherSlider.get()[0],
+      weatherMax:   weatherSlider.get()[1],
+      flightMin:    flightTimeSlider.get()[0],
+      flightMax:    flightTimeSlider.get()[1],
+      ratingMin:    hotelRatingSlider.get()[0],
+      ratingMax:    hotelRatingSlider.get()[1], 
+      limit:        tmpl.limit.get()
+    }
 
-    // find forecasts for cities that have weather in temperatureSlider range
-    var forecasts = Forecasts.find({ 
-      temp: {$gte: temperatureSlider.get()[0], $lte: temperatureSlider.get()[1]},
-      weatherType: {$gte: weatherSlider.get()[0], $lte: weatherSlider.get()[1]},
-    });
-
-    var forecastCities = [];
-
-    forecasts.forEach(function(forecast){
-      forecastCities.push(forecast.cityCode);
-    });
-
-    var cities = Cities.find({ cityCode: { $in: forecastCities } });
-
-    // Check flight time
-    cities.forEach(function(city){
-      if (city.avgFlightTime/60 >= flightTimeSlider.get()[0] && city.avgFlightTime/60 <= flightTimeSlider.get()[1])
-        tmpl.tripCities.get().push(city.cityCode);
-      }); 
-
-    var limit = tmpl.limit.get(),
-        subscription = tmpl.subscribe('trips', limit);
+    var limit = tmpl.limit.get();
+    var subscription = tmpl.subscribe('trips', pubObj);
 
   }); // autorun ends
 
   tmpl.trips = function(){
-    return Trips.find({}, {limit: 100, sort: {totalPrice: 1} });
-    return Trips.find({
-        cityCode: { $in: tmpl.tripCities.get()}, 
-        StarRating: { $gte: Number(hotelRatingSlider.get()[0]), $lte: Number(hotelRatingSlider.get()[1]) }
-      });
+    // return Trips.find({}, {limit: 100, sort: {totalPrice: 1} });
+    return Trips.find({});
   }
 
 });

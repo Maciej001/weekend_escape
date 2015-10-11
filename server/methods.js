@@ -284,7 +284,7 @@ Meteor.methods({
 
       var forecast = Forecasts.findOne({cityCode: city.cityCode});
 
-      var hotels = Hotels.find({cityCode: city.cityCode}, { limit: 100});
+      var hotels = Hotels.find({cityCode: city.cityCode}, { limit: 10});
 
       flights.forEach(function(flight){
         hotels.forEach(function(hotel){
@@ -314,7 +314,7 @@ Meteor.methods({
               price:        hotelPrice,
               DetailsUrl:   hotel.DetailsUrl
             },
-            StarRating:   hotel.StarRating
+            StarRating:   Number(hotel.StarRating)
           }); // Trips.insert
         }); // hotels loop
       }); // flights loop
